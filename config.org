@@ -1,0 +1,272 @@
+#+TITLE: Meine emacs doom Konfiguration
+#+AUTHOR: Jonas Siewert
+#+EMAIL: jonasonweb@gmail.com
+#+LANGUAGE: de
+#+STARTUP: inlineimages
+#+PROPERTY: header-args :tangle yes :cache yes :results silent :padline no
+
+* Konfiguration
+** Persönliche Information
+*** Set full name
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "Jonas Siewert")
+#+END_SRC
+*** Set email address
+#+BEGIN_SRC emacs-lisp
+(setq user-mail-address "jonasonweb@gmail.com")
+#+END_SRC
+** Persönliche Module
+Hier bearbeite ich Einstellungen an Paketen außerhalb von =Doom-emacs=
+*** ui/indent-guides
+Zeige indent-guides. Ähnlich zum Package aus Doom, aber es erlaubt zeichen als
+guides anstatt von Farben zu verwenden.
+**** Define Package
+#+BEGIN_SRC emacs-lisp
+(use-package! highlight-indent-guides
+  :hook (prog-mode . highlight-indent-guides-mode))
+#+END_SRC
+**** Use charcters for indent guides
+#+BEGIN_SRC emacs-lisp
+(after! highlight-indent-guides
+  (setq highlight-indent-guides-method 'character))
+#+END_SRC
+**** Use responsive highlights
+Highlight indentation based on current line
+#+BEGIN_SRC emacs-lisp
+(after! highlight-indent-guides
+  (setq highlight-indent-guides-responsive t))
+#+END_SRC
+**** Set indent guide character
+***** Set character
+#+BEGIN_SRC emacs-lisp
+(after! highlight-indent-guides
+  (setq highlight-indent-guides-character ?\┆))
+#+END_SRC
+***** Examples
+- ┆
+- ¦
+- │
+- │
+- ▏
+**** Set colors
+#+BEGIN_SRC emacs-lisp
+(after! highlight-indent-guides
+  (setq highlight-indent-guides-auto-enabled 'top)
+  (set-face-attribute 'highlight-indent-guides-odd-face nil :inherit 'highlight-indentation-odd-face)
+  (set-face-attribute 'highlight-indent-guides-even-face nil :inherit 'highlight-indentation-even-face)
+  (set-face-foreground 'highlight-indent-guides-character-face (doom-color 'base5)))
+#+END_SRC
+** Doom Kern
+Hier stelle ich meine Grundeinstellung für Doom ein
+*** Core
+**** Keine Lockfiles für Dateien, die editiert werden, erzeugen
+#+BEGIN_SRC emacs-lisp
+(setq create-lockfiles nil)
+#+END_SRC
+*** Keybinds
+Zum einstllen der Tastenkürzel
+**** Globalkeybins
+**** Leader keybins
+#+BEGIN_SRC emacs-lisp
+(map! :leader
+      (:prefix "TAB"
+        :desc "Rename workspace"       "r"  #'+workspace/rename)
+      (:prefix "f"
+        :desc "Find remote file"      "R" #'counsel-tramp
+        :desc "Find file in dotfiles" "t" #'+brett/find-in-dotfiles
+        :desc "Browse dotfiles"       "T" #'+brett/browse-dotfiles)
+      (:prefix "n"
+        :desc "Browse mode notes"    "m" #'+brett/find-notes-for-major-mode
+        :desc "Browse project notes" "p" #'+brett/find-notes-for-project)
+      (:prefix "t"
+        :desc "Rainbow mode" "r" #'rainbow-mode)
+      (:prefix "/"
+        :desc "Hex colors" "h"  #'counsel-hex-colors))
+#+END_SRC
+**** Use - to jump up to the previous directory
+Für dired
+#+BEGIN_SRC emacs-lisp
+(after! evil
+  (map! :m "-" #'dired-jump))
+#+END_SRC
+**** Sort a region with gS
+#+BEGIN_SRC emacs-lisp
+(map!
+ (:after evil
+   :m "gS" #'+brett/sort))
+#+END_SRC
+**** Easy window navigation
+#+BEGIN_SRC emacs-lisp
+(map!
+ (:after evil
+   :en "C-h" #'evil-window-left
+   :en "C-j" #'evil-window-down
+   :en "C-k" #'evil-window-up
+   :en "C-l" #'evil-window-right))
+#+END_SRC
+**** Org Mode
+#+BEGIN_SRC emacs-lisp
+(map! (:localleader
+        (:after evil-org
+          :map evil-org-mode-map
+          "/" #'counsel-org-goto)))
+#+END_SRC
+**** Dired
+#+BEGIN_SRC emacs-lisp
+(map!
+ (:after dired
+   :map dired-mode-map
+   "C-SPC" #'peep-dired))
+#+END_SRC
+**** Treemacs
+Verwende =C-h= und =C-l=, um buffer zu wechseln
+#+BEGIN_SRC emacs-lisp
+(map!
+ (:after treemacs-evil
+   (:map evil-treemacs-state-map
+     "C-h" #'evil-window-left
+     "C-l" #'evil-window-right)))
+#+END_SRC
+**** Show keybind help with less delay
+#+BEGIN_SRC emacs-lisp
+(after! which-key
+  (setq which-key-idle-delay 0.5
+        which-key-idle-secondary-delay 0.01
+        whoch-key-sort-order 'which-key-key-order-alpha))
+#+END_SRC
+*** OS
+**** Mous Rad
+#+BEGIN_SRC emacs-lisp
+(setq mouse-wheel-scroll-amount '(3)
+      mouse-wheel-progressive-speed t
+      mouse-wheel-follow-mouse t
+      scroll-step 1)
+#+END_SRC
+*** Scratch (Neuer buffer prototyp)
+**** Lass Scratch des major mode des aktuellen Buffers erben
+#+BEGIN_SRC emacs-lisp
+(setq doom-scratch-buffer-major-mode t)
+#+END_SRC
+*** UI
+**** Anpassen der framegröße pixelweise --- So wird emacs kompatibel zu awesome (tiling wm)
+#+BEGIN_SRC emacs-lisp
+(setq frame-resize-pixelwise t)
+#+END_SRC
+**** Leerzeichen am Ende besonders markieren
+#+BEGIN_SRC emacs-lisp
+(setq show-trailing-whitespace t)
+#+END_SRC
+**** Skalierungsfaktor für all-the-icons setzen
+#+BEGIN_SRC emacs-lisp
+(after! all-the-icons
+  (setq all-the-icons-scale-factor 1.0))
+#+END_SRC
+**** Zeige eldoc sofort
+#+BEGIN_SRC emacs-lisp
+(setq eldoc-idle-delay 0)
+#+END_SRC
+** Doom Module
+*** completion/ivy
+**** Setze ripgrep als standard programm für die Projektsuche in ivy
+#+BEGIN_SRC emacs-lisp
+(setq +ivy-project-search-engines '(rg))
+#+END_SRC
+**** Setup für ~ivy-rich~
+#+BEGIN_SRC emacs-lisp
+ (after! ivy-rich
+  (setq ivy-rich--display-transformers-list
+        '(ivy-switch-buffer
+          (:columns
+           ((ivy-rich-candidate (:width 30 :face bold))
+            (ivy-rich-switch-buffer-size (:width 7 :face font-lock-doc-face))
+            (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
+            (ivy-rich-switch-buffer-major-mode (:width 18 :face doom-modeline-buffer-major-mode))
+            (ivy-rich-switch-buffer-path (:width 50)))
+           :predicate
+           (lambda (cand) (get-buffer cand)))
+          +ivy/switch-workspace-buffer
+          (:columns
+           ((ivy-rich-candidate (:width 30 :face bold))
+            (ivy-rich-switch-buffer-size (:width 7 :face font-lock-doc-face))
+            (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
+            (ivy-rich-switch-buffer-major-mode (:width 18 :face doom-modeline-buffer-major-mode))
+            (ivy-rich-switch-buffer-path (:width 50)))
+           :predicate
+           (lambda (cand) (get-buffer cand)))
+          counsel-M-x
+          (:columns
+           ((counsel-M-x-transformer (:width 40))
+            (ivy-rich-counsel-function-docstring (:face font-lock-doc-face :width 80))))
+          counsel-describe-function
+          (:columns
+           ((counsel-describe-function-transformer (:width 40))
+            (ivy-rich-counsel-function-docstring (:face font-lock-doc-face :width 80))))
+          counsel-describe-variable
+          (:columns
+           ((counsel-describe-variable-transformer (:width 40))
+            (ivy-rich-counsel-variable-docstring (:face font-lock-doc-face :width 80))))
+          counsel-recentf
+          (:columns
+           ((ivy-rich-candidate (:width 100))
+            (ivy-rich-file-last-modified-time (:face font-lock-doc-face)))))))
+
+(after! counsel
+  (setq counsel-evil-registers-height 20
+        counsel-yank-pop-height 20
+        counsel-org-goto-face-style 'org
+        counsel-org-headline-display-style 'title
+        counsel-org-headline-display-tags t
+        counsel-org-headline-display-todo t))
+
+(after! ivy
+  (setq ivy-posframe-parameters
+        `((min-width . 160)
+          (min-height . ,ivy-height)
+          (left-fringe . 0)
+          (right-fringe . 0)
+          (internal-border-width . 10))
+        ivy-display-functions-alist
+        '((counsel-git-grep)
+          (counsel-grep)
+          (counsel-pt)
+          (counsel-ag)
+          (counsel-rg)
+          (counsel-notmuch)
+          (swiper)
+          (counsel-irony . ivy-display-function-overlay)
+          (ivy-completion-in-region . ivy-display-function-overlay)
+          (t . ivy-posframe-display-at-frame-center))))
+(after! ivy
+  (setq ivy-use-selectable-prompt t
+        ivy-auto-select-single-candidate t
+        ivy-rich-parse-remote-buffer nil
+        +ivy-buffer-icons nil
+        ivy-use-virtual-buffers nil
+        ivy-magic-slash-non-match-action 'ivy-magic-slash-non-match-cd-selected
+        ivy-height 20
+        ivy-rich-switch-buffer-name-max-length 50))
+#+END_SRC
+**** Hilfreiche Aktion zu ~counsel-M-x~ hinzufügen
+#+BEGIN_SRC emacs-lisp
+(after! ivy
+  (ivy-add-actions
+   'counsel-M-x
+   `(("h" +ivy/helpful-function "Helpful"))))
+#+END_SRC
+**** Setup ~counsel-tramp~
+#+BEGIN_SRC emacs-lisp
+(use-package! counsel-tramp
+  :commands (counsel-tramp))
+#+END_SRC
+**** Setup ~all-the-icons-ivy~
+#+BEGIN_SRC emacs-lisp
+(use-package! all-the-icons-ivy
+  :after ivy
+  :config
+  (dolist (cmd '( counsel-find-file
+                  counsel-file-jump
+                  projectile-find-filecounsel-projectile-find-file
+                  counsel-dired-jump counsel-projectile-find-dir
+                  counsel-projectile-switch-project))
+    (ivy-set-display-transformer cmd #'all-the-icons-ivy-file-transformer)))
+#+END_SRC
