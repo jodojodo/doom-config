@@ -33,6 +33,9 @@
 ;; tools/tldr
 (package! tldr)
 
+;; ui/doom
+(package! doom-themes :recipe (:host github :repo "hlissner/emacs-doom-themes" :files ("*.el" "themes/*.el")))
+
 ;; ui/modeline
 (package! doom-modeline)
 (package! anzu)

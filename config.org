@@ -79,7 +79,8 @@ Zum einstllen der Tastenkürzel
         :desc "Browse mode notes"    "m" #'+brett/find-notes-for-major-mode
         :desc "Browse project notes" "p" #'+brett/find-notes-for-project)
       (:prefix "t"
-        :desc "Rainbow mode" "r" #'rainbow-mode)
+        :desc "Rainbow mode" "r" #'rainbow-mode
+        :desc "Treemacs" "t" #'treemacs)
       (:prefix "/"
         :desc "Hex colors" "h"  #'counsel-hex-colors))
 #+END_SRC
@@ -157,7 +158,7 @@ Verwende =C-h= und =C-l=, um buffer zu wechseln
 (setq show-trailing-whitespace t)
 #+END_SRC
 **** Skalierungsfaktor für all-the-icons setzen
-#+BEGIN_SRC emacs-lisp
+stop#+BEGIN_SRC emacs-lisp
 (after! all-the-icons
   (setq all-the-icons-scale-factor 1.0))
 #+END_SRC
@@ -172,9 +173,9 @@ Verwende =C-h= und =C-l=, um buffer zu wechseln
 (setq +ivy-project-search-engines '(rg))
 #+END_SRC
 **** Setup für ~ivy-rich~
-#+BEGIN_SRC emacs-lisp
+stop#+BEGIN_SRC emacs-lisp
  (after! ivy-rich
-  (setq ivy-rich--display-transformers-list
+  (setq ivy-rich-display-transformers-list
         '(ivy-switch-buffer
           (:columns
            ((ivy-rich-candidate (:width 30 :face bold))
@@ -247,19 +248,19 @@ Verwende =C-h= und =C-l=, um buffer zu wechseln
         ivy-rich-switch-buffer-name-max-length 50))
 #+END_SRC
 **** Hilfreiche Aktion zu ~counsel-M-x~ hinzufügen
-#+BEGIN_SRC emacs-lisp
+stop#+BEGIN_SRC emacs-lisp
 (after! ivy
   (ivy-add-actions
    'counsel-M-x
    `(("h" +ivy/helpful-function "Helpful"))))
 #+END_SRC
 **** Setup ~counsel-tramp~
-#+BEGIN_SRC emacs-lisp
+stop#+BEGIN_SRC emacs-lisp
 (use-package! counsel-tramp
   :commands (counsel-tramp))
 #+END_SRC
 **** Setup ~all-the-icons-ivy~
-#+BEGIN_SRC emacs-lisp
+stop#+BEGIN_SRC emacs-lisp
 (use-package! all-the-icons-ivy
   :after ivy
   :config
@@ -269,4 +270,93 @@ Verwende =C-h= und =C-l=, um buffer zu wechseln
                   counsel-dired-jump counsel-projectile-find-dir
                   counsel-projectile-switch-project))
     (ivy-set-display-transformer cmd #'all-the-icons-ivy-file-transformer)))
+#+END_SRC
+*** completion/company
+**** Setze maximale Anzahl and Kandidaten innerhalb ~company-box~
+#+BEGIN_SRC emacs-lisp
+(after! company-box
+  (setq company-boy-may-candidates 5))
+#+END_SRC
+**** Setup ~company-perscient~
+#+BEGIN_SRC emacs-lisp
+(use-package! company-prescient
+  :after company
+  :hook (company-mode . company-prescient-mode))
+#+END_SRC
+**** Setup company ui
+#+BEGIN_SRC emacs-lisp
+(after! company
+  (setq company-tooltip-limit 5
+        company-tooltip-minimum-width 80
+        company-tooltip-minimum 5
+        company-backends
+        '(company-aspell company-capf company-dabbrev company-files company-yasnnippet)
+        company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode)))
+#+END_SRC
+*** emacs/dired
+**** Set ~dired-k~ to use human readyble style
+#+BEGIN_SRC emacs-lisp
+(after! dired-k
+  (setq dired-k-human-readable t))
+#+END_SRC
+**** Enable ~diredfl-mode~ ond ~dired~ buffers
+#+BEGIN_SRC emacs-lisp
+(use-package! diredfl
+  :hook (dired-mode . diredfl-mode))
+#+END_SRC
+**** Setup ~peep-dired~
+#+BEGIN_SRC emacs-lisp
+(use-package! peep-dired
+  :after dired
+  :defer t
+  :commands (peep-dired))
+#+END_SRC
+*** emacs/eshell
+**** Set ~eshell~ aliases
+#+BEGIN_SRC emacs-lisp
+(after! eshell
+  (set-eshell-alias!
+   "f"   "find-file $1"
+   "l"   "ls -lh"
+   "d"   "dired $1"
+   "gl"  "(call-interactively 'magit-log-current)"
+   "gs"  "magit-status"
+   "gc"  "magit-commit"
+   "rg"  "rg --color=always $*"))
+#+END_SRC
+*** emacs/term
+**** Setze ~zsh~ als default shell
+#+BEGIN_SRC emacs-lisp
+(after! multi-term
+  (setq multi-term-program "/bin/zsh"))
+#+END_SRC
+*** feature/workspaces
+**** Erstelle beim Wechsel eines Projektes einen neuen Workspac
+#+BEGIN_SRC emacs-lisp
+(setq +workspaces-on-switch-project-behavior t)
+#+END_SRC
+*** domm/ui
+Doom User interface Einstellungen
+**** COMMENT Fonts
+Überall die Hack Nerd Fonts einstellen
+***** Default font
+~doom-font~ ist der Standard Font für emacs
+#+BEGIN_SRC emacs-lisp
+(setq doom-font (font-spec :family "Cousine Nerd Font" :size 12))
+#+END_SRC
+***** Serif
+~doom-serif-font~ wird für ~fixed-pitch-serif~ face verwendet.
+#+BEGIN_SRC emacs-lisp
+(setq doom-serif-font (font-spec :family "Hack Nerd Font" :weight 'semi-bold :width 'extra-condensed))
+#+END_SRC
+***** Big font
+~doom-big-font~ ist der standard font für den Big mode
+#+BEGIN_SRC emacs-lisp
+(setq doom-big-font (font-spec :family "Cousine Nerd Font" :size 30))
+#+END_SRC
+***** Unicode font
+~doom-unicode-font~ ist der font, der für unicode zeichen verwendet wird, die
+nicht in ~doom-font~ enthalten sind.
+#+BEGIN_SRC emacs-lisp
+(setq doom-unicode-font "Noto Sans ExtraCondensed Semibold")
 #+END_SRC
