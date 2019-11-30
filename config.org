@@ -173,7 +173,7 @@ stop#+BEGIN_SRC emacs-lisp
 (setq +ivy-project-search-engines '(rg))
 #+END_SRC
 **** Setup für ~ivy-rich~
-stop#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
  (after! ivy-rich
   (setq ivy-rich-display-transformers-list
         '(ivy-switch-buffer
@@ -247,29 +247,28 @@ stop#+BEGIN_SRC emacs-lisp
         ivy-height 20
         ivy-rich-switch-buffer-name-max-length 50))
 #+END_SRC
-**** Hilfreiche Aktion zu ~counsel-M-x~ hinzufügen
-stop#+BEGIN_SRC emacs-lisp
-(after! ivy
-  (ivy-add-actions
-   'counsel-M-x
-   `(("h" +ivy/helpful-function "Helpful"))))
-#+END_SRC
-**** Setup ~counsel-tramp~
-stop#+BEGIN_SRC emacs-lisp
+**** COMMENT Setup ~counsel-tramp~
+#+BEGIN_SRC emacs-lisp
 (use-package! counsel-tramp
   :commands (counsel-tramp))
 #+END_SRC
 **** Setup ~all-the-icons-ivy~
-stop#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package! all-the-icons-ivy
   :after ivy
   :config
-  (dolist (cmd '( counsel-find-file
-                  counsel-file-jump
-                  projectile-find-filecounsel-projectile-find-file
-                  counsel-dired-jump counsel-projectile-find-dir
-                  counsel-projectile-switch-project))
-    (ivy-set-display-transformer cmd #'all-the-icons-ivy-file-transformer)))
+  ;;(all-the-icons-ivy-setup)
+  (setq all-the-icons-ivy-file-commands '(
+                                          counsel-find-file
+                                          counsel-file-jump
+                                          counsel-recentf
+                                          projectile-find-file
+                                          counsel-projectile-find-file
+                                          counsel-dired-jump
+                                          counsel-projectile-find-dir
+                                          counsel-projectile-switch-project))
+  ;;(ivy-set-display-transformer cmd #'all-the-icons-ivy-file-transformer)
+  )
 #+END_SRC
 *** completion/company
 **** Setze maximale Anzahl and Kandidaten innerhalb ~company-box~
