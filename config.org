@@ -257,17 +257,17 @@ stop#+BEGIN_SRC emacs-lisp
 (use-package! all-the-icons-ivy
   :after ivy
   :config
-  ;;(all-the-icons-ivy-setup)
   (setq all-the-icons-ivy-file-commands '(
                                           counsel-find-file
                                           counsel-file-jump
-                                          counsel-recentf
-                                          projectile-find-file
+                                          ;counsel-recentf ;; Has to be diasabled in order to let ivy-rich work in thes buffer.
                                           counsel-projectile-find-file
                                           counsel-dired-jump
+                                          counsel-git
                                           counsel-projectile-find-dir
                                           counsel-projectile-switch-project))
-  ;;(ivy-set-display-transformer cmd #'all-the-icons-ivy-file-transformer)
+  (dolist (cmd all-the-icons-ivy-file-commands)
+    (ivy-set-display-transformer cmd 'all-the-icons-ivy-file-transformer))
   )
 #+END_SRC
 *** completion/company
