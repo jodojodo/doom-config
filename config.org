@@ -56,6 +56,15 @@ Highlight indentation based on current line
   (set-face-attribute 'highlight-indent-guides-even-face nil :inherit 'highlight-indentation-even-face)
   (set-face-foreground 'highlight-indent-guides-character-face (doom-color 'base5)))
 #+END_SRC
+
+*** emacs/tmux
+**** tmux pane plugin einbinden
+#+BEGIN_SRC emacs-lisp
+(use-package! tmux-pane
+  :config
+  ;(tmux-pane-mode)
+  )
+#+END_SRC
 ** Doom Kern
 Hier stelle ich meine Grundeinstellung für Doom ein
 *** Core

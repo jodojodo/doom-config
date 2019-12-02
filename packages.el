@@ -36,6 +36,9 @@
 ;; ui/doom
 (package! doom-themes :recipe (:host github :repo "hlissner/emacs-doom-themes" :files ("*.el" "themes/*.el")))
 
+;; ui/tmux integration
+(package! tmux-pane)
+
 ;; ui/modeline
 (package! doom-modeline)
 (package! anzu)
