@@ -36,6 +36,9 @@
 ;; ui/doom
 (package! doom-themes :recipe (:host github :repo "hlissner/emacs-doom-themes" :files ("*.el" "themes/*.el")))
 
+;; ui/doom pywal dynamic theme
+(package! ewal-doom-themes :recipe (:host gitlab :repo "jjzmajic/ewal" :files ("*.el" "doom-themes/*.el")))
+
 ;; ui/tmux integration
 (package! tmux-pane)
 
@@ -46,3 +49,6 @@
 
 ;; ui/indent-guides
 (package! highlight-indent-guides)
+
+;; smtpmail for sending mails
+(package! smtpmail)

@@ -67,23 +67,28 @@
        electric          ; smarter, keyword-based electric-indent
        ibuffer           ; interactive buffer management
        vc                ; version-control and Emacs, sitting in a tree
+       undo
 
        :term
        eshell            ; a consistent, cross-platform shell (WIP)
        ;;shell             ; a terminal REPL for Emacs
-       term              ; terminals in Emacs
-       ;;vterm             ; another terminals in Emacs
+       ;;term              ; terminals in Emacs
+       vterm             ; another terminals in Emacs
+
+       :checkers
+       syntax            ; tasing you for every semicolon you forgot
+       spell             ; tasing you for misspelling mispelling
+       grammar           ; tasing grammar mistake every you make
+
 
        :tools
        ;;ansible
        debugger          ; FIXME stepping through code, to help you add bugs
        ;;direnv
        ;;docker
-       ;;editorconfig      ; let someone else argue about tabs vs spaces
+       editorconfig      ; let someone else argue about tabs vs spaces
        ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
-       flycheck          ; tasing you for every semicolon you forget
-       ;;flyspell          ; tasing you for misspelling mispelling
        ;;gist              ; interacting with github gists
        (lookup           ; helps you navigate your code and documentation
         +docsets)        ; ...or in Dash docsets locally
@@ -97,11 +102,11 @@
        rgb               ; creating color strings
        ;;terraform         ; infrastructure as code
        tmux              ; an API for interacting with tmux
-       ;;upload            ; map local to remote projects via ssh/ftp
+       upload            ; map local to remote projects via ssh/ftp
 
        :lang
        ;;agda              ; types of types of types of types...
-       assembly          ; assembly for fun or debugging
+       ;;assembly          ; assembly for fun or debugging
        cc                ; C/C++/Obj-C madness
        ;;clojure           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
@@ -139,7 +144,7 @@
         ;;+hugo            ; use Emacs for hugo blogging
         +ipython         ; ipython/jupyter support for babel
         +pandoc          ; export-with-pandoc support
-        ;;+pomodoro        ; be fruitful with the tomato technique
+        +pomodoro        ; be fruitful with the tomato technique
         +present)        ; using org-mode for presentations
        ;;perl              ; write code no one else can comprehend
        php               ; perl's insecure younger brother
@@ -150,7 +155,7 @@
        ;;racket            ; a DSL for DSLs
        rest              ; Emacs as a REST client
        ;;rst               ; ReST in peace
-       ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       ;;ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        ;;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        scala             ; java, but good
        ;;scheme            ; a fully conniving family of lisps
@@ -158,15 +163,16 @@
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       web               ; the tubes
+       ;;web               ; the tubes
+       yaml              ; JSON, but readable
 
        :email
-       ;;(mu4e +gmail)
+       (mu4e +gmail)
        ;;notmuch
        ;;(wanderlust +gmail)
 
        :app
-       ;;calendar
+       calendar
        ;;irc               ; how neckbeards socialize
        ;;(rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought
