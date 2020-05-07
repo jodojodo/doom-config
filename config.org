@@ -32,8 +32,8 @@ Zum einstellen der Tastenkürzel
         :desc "Rename workspace"       "r"  #'+workspace/rename)
       (:prefix "f"
         :desc "Find remote file"      "R" #'counsel-tramp
-        :desc "Find file in dotfiles" "t" #'+brett/find-in-dotfiles
-        :desc "Browse dotfiles"       "T" #'+brett/browse-dotfiles)
+        :desc "Find file in dotfiles" "t" #'find-in-dotfiles
+        :desc "Browse dotfiles"       "T" #'browse-dotfiles)
       (:prefix "n"
         :desc "Browse mode notes"    "m" #'+brett/find-notes-for-major-mode
         :desc "Browse project notes" "p" #'+brett/find-notes-for-project)
@@ -90,7 +90,7 @@ Verwende =C-h= und =C-l=, um buffer zu wechseln
 **** Show keybind help with less delay
 #+BEGIN_SRC emacs-lisp
 (after! which-key
-  (setq which-key-idle-delay 0.5
+  (setq which-key-idle-delay 0.25
         which-key-idle-secondary-delay 0.01
         whoch-key-sort-order 'which-key-key-order-alpha))
 #+END_SRC
@@ -112,6 +112,10 @@ Verwende =C-h= und =C-l=, um buffer zu wechseln
 #+BEGIN_SRC emacs-lisp
 (setq frame-resize-pixelwise t)
 #+END_SRC
+**** Gelegentliches Emacs flickern verhinern
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+#+end_src
 **** Leerzeichen am Ende besonders markieren
 #+BEGIN_SRC emacs-lisp
 (setq show-trailing-whitespace t)
@@ -125,6 +129,22 @@ Verwende =C-h= und =C-l=, um buffer zu wechseln
 #+BEGIN_SRC emacs-lisp
 (setq eldoc-idle-delay 0)
 #+END_SRC
+**** Zeilennummern deaktivieren
+Der PerformanceBoost ist sehr groß und die Zeilennummer ist in der Leiste unten zu sehen.
+#+begin_src emacs-lisp
+(setq display-line-numbers-type nil)
+#+end_src
+**** Lsp-ui-sideline deaktivieren
+Dies ist redundant zu eldoc und mehr "invasive" daher deaktivieren
+#+begin_src emacs-lisp :tangle yes
+(setq lsp-ui-sideline-enable nil
+      lsp-enable-symbol-highlighting nil)
+#+end_src
+**** Automatische Verfollständigung deaktivieren
+In der Regel benötigt man die Autoverfollständigung nicht automatisch. Daher hierdurch deaktiviert:
+#+begin_src emacs-lisp
+(setq company-idle-delay nil)
+#+end_src
 ** Persönliche Module
 Hier bearbeite ich Einstellungen an Paketen außerhalb von =Doom-emacs=
 *** ui/indent-guides
@@ -177,6 +197,10 @@ Highlight indentation based on current line
 #+END_SRC
 ** Doom Module
 *** completion/ivy
+**** Sortieren von ivy Sucherergebnissen (alphabetisch)
+#+begin_src emacs-lisp :tangle yes
+(add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus))
+#+end_src
 **** Setze ripgrep als standard programm für die Projektsuche in ivy
 #+BEGIN_SRC emacs-lisp
 (setq +ivy-project-search-engines '(rg))
@@ -418,4 +442,32 @@ All settings regarding the sending of mails via mbsync and protonmail bridge.
 The message buffers can be destroyd when the message is sent.
 #+begin_src emacs-lisp
 (setq message-kill-buffer-on-exit t)
+#+end_src
+*** org
+**** Definiere org verzeichnisse
+Hier werden die Verzeichnisse von org definiert: Standard, Archiv und Notizen.
+#+begin_src emacs-lisp
+(setq org-directory "~/projects/org"
+      org-archive-location (concat org-directory ".archive/%s::")
+      org-roam-directory (concat org-directory "notes/"))
+#+end_src
+**** Verschlüsseln der Journals
+Die Journale sollen verschlüsselt werden.
+#+begin_src emacs-lisp
+(setq org-journal-encrypt-journal t)
+#+end_src
+**** Eigene Symbole für Org definieren
+Symbol für eingeklappte Ordner:
+#+begin_src emacs-lisp
+(setq org-ellipsis " ▼")
+#+end_src
+Symbole für Aufzählungen als unterschiedliche Vierecke:
+#+begin_src emacs-lisp :tangle yes
+(setq org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷"))
+#+end_src
+**** Org-Habits aktivieren
+Mittles Org-habbits man kan Angewohnheiten positive wie negative tracken und sehen, wie oft man sie eingehalten hat.
+#+begin_src emacs-lisp :tangle yes
+(after! org
+  (add-to-list 'org-modules 'org-habit t))
 #+end_src
