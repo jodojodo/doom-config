@@ -1,7 +1,7 @@
 #+TITLE: Meine emacs doom Konfiguration
 #+AUTHOR: Jonas Siewert
-#+EMAIL: jonasonweb@gmail.com
 #+LANGUAGE: de
+#+EMAIL: jonas@diesiewerts.de
 #+STARTUP: inlineimages
 #+PROPERTY: header-args :tangle yes :cache yes :results silent :padline no
 
@@ -13,57 +13,7 @@
 #+END_SRC
 *** Set email address
 #+BEGIN_SRC emacs-lisp
-(setq user-mail-address "jonasonweb@gmail.com")
-#+END_SRC
-** Persönliche Module
-Hier bearbeite ich Einstellungen an Paketen außerhalb von =Doom-emacs=
-*** ui/indent-guides
-Zeige indent-guides. Ähnlich zum Package aus Doom, aber es erlaubt zeichen als
-guides anstatt von Farben zu verwenden.
-**** Define Package
-#+BEGIN_SRC emacs-lisp
-(use-package! highlight-indent-guides
-  :hook (prog-mode . highlight-indent-guides-mode))
-#+END_SRC
-**** Use charcters for indent guides
-#+BEGIN_SRC emacs-lisp
-(after! highlight-indent-guides
-  (setq highlight-indent-guides-method 'character))
-#+END_SRC
-**** Use responsive highlights
-Highlight indentation based on current line
-#+BEGIN_SRC emacs-lisp
-(after! highlight-indent-guides
-  (setq highlight-indent-guides-responsive t))
-#+END_SRC
-**** Set indent guide character
-***** Set character
-#+BEGIN_SRC emacs-lisp
-(after! highlight-indent-guides
-  (setq highlight-indent-guides-character ?\┆))
-#+END_SRC
-***** Examples
-- ┆
-- ¦
-- │
-- │
-- ▏
-**** Set colors
-#+BEGIN_SRC emacs-lisp
-(after! highlight-indent-guides
-  (setq highlight-indent-guides-auto-enabled 'top)
-  (set-face-attribute 'highlight-indent-guides-odd-face nil :inherit 'highlight-indentation-odd-face)
-  (set-face-attribute 'highlight-indent-guides-even-face nil :inherit 'highlight-indentation-even-face)
-  (set-face-foreground 'highlight-indent-guides-character-face (doom-color 'base5)))
-#+END_SRC
-
-*** emacs/tmux
-**** tmux pane plugin einbinden
-#+BEGIN_SRC emacs-lisp
-(use-package! tmux-pane
-  :config
-  ;(tmux-pane-mode)
-  )
+(setq user-mail-address "jonas@diesiewerts.de")
 #+END_SRC
 ** Doom Kern
 Hier stelle ich meine Grundeinstellung für Doom ein
@@ -73,7 +23,7 @@ Hier stelle ich meine Grundeinstellung für Doom ein
 (setq create-lockfiles nil)
 #+END_SRC
 *** Keybinds
-Zum einstllen der Tastenkürzel
+Zum einstellen der Tastenkürzel
 **** Globalkeybins
 **** Leader keybins
 #+BEGIN_SRC emacs-lisp
@@ -167,13 +117,63 @@ Verwende =C-h= und =C-l=, um buffer zu wechseln
 (setq show-trailing-whitespace t)
 #+END_SRC
 **** Skalierungsfaktor für all-the-icons setzen
-stop#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (after! all-the-icons
   (setq all-the-icons-scale-factor 1.0))
 #+END_SRC
 **** Zeige eldoc sofort
 #+BEGIN_SRC emacs-lisp
 (setq eldoc-idle-delay 0)
+#+END_SRC
+** Persönliche Module
+Hier bearbeite ich Einstellungen an Paketen außerhalb von =Doom-emacs=
+*** ui/indent-guides
+Zeige indent-guides. Ähnlich zum Package aus Doom, aber es erlaubt zeichen als
+guides anstatt von Farben zu verwenden.
+**** Define Package
+#+BEGIN_SRC emacs-lisp
+(use-package! highlight-indent-guides
+  :hook (prog-mode . highlight-indent-guides-mode))
+#+END_SRC
+**** Use charcters for indent guides
+#+BEGIN_SRC emacs-lisp
+(after! highlight-indent-guides
+  (setq highlight-indent-guides-method 'character))
+#+END_SRC
+**** Use responsive highlights
+Highlight indentation based on current line
+#+BEGIN_SRC emacs-lisp
+(after! highlight-indent-guides
+  (setq highlight-indent-guides-responsive t))
+#+END_SRC
+**** Set indent guide character
+***** Set character
+#+BEGIN_SRC emacs-lisp
+(after! highlight-indent-guides
+  (setq highlight-indent-guides-character ?\┆))
+#+END_SRC
+***** Examples
+- ┆
+- ¦
+- │
+- │
+- ▏
+**** Set colors
+#+BEGIN_SRC emacs-lisp
+(after! highlight-indent-guides
+  (setq highlight-indent-guides-auto-enabled 'top)
+  (set-face-attribute 'highlight-indent-guides-odd-face nil :inherit 'highlight-indentation-odd-face)
+  (set-face-attribute 'highlight-indent-guides-even-face nil :inherit 'highlight-indentation-even-face)
+  (set-face-foreground 'highlight-indent-guides-character-face (doom-color 'base5)))
+#+END_SRC
+
+*** emacs/tmux
+**** tmux pane plugin einbinden
+#+BEGIN_SRC emacs-lisp
+(use-package! tmux-pane
+  :config
+  ;(tmux-pane-mode)
+  )
 #+END_SRC
 ** Doom Module
 *** completion/ivy
@@ -319,6 +319,12 @@ stop#+BEGIN_SRC emacs-lisp
   :defer t
   :commands (peep-dired))
 #+END_SRC
+**** Activate double window target guessing
+If this is on and there are multiple dired windows,
+the target path of a dired copy or rename action is taken from the other dired window.
+#+begin_src emacs-lisp
+(setq dired-dwim-target t)
+#+end_src
 *** emacs/eshell
 **** Set ~eshell~ aliases
 #+BEGIN_SRC emacs-lisp
@@ -345,12 +351,12 @@ stop#+BEGIN_SRC emacs-lisp
 #+END_SRC
 *** domm/ui
 Doom User interface Einstellungen
-**** COMMENT Fonts
+**** Fonts
 Überall die Hack Nerd Fonts einstellen
 ***** Default font
 ~doom-font~ ist der Standard Font für emacs
 #+BEGIN_SRC emacs-lisp
-(setq doom-font (font-spec :family "Cousine Nerd Font" :size 12))
+(setq doom-font (font-spec :family "Fira Code" :size 14))
 #+END_SRC
 ***** Serif
 ~doom-serif-font~ wird für ~fixed-pitch-serif~ face verwendet.
@@ -360,7 +366,7 @@ Doom User interface Einstellungen
 ***** Big font
 ~doom-big-font~ ist der standard font für den Big mode
 #+BEGIN_SRC emacs-lisp
-(setq doom-big-font (font-spec :family "Cousine Nerd Font" :size 30))
+(setq doom-big-font (font-spec :family "Fira Code" :size 30))
 #+END_SRC
 ***** Unicode font
 ~doom-unicode-font~ ist der font, der für unicode zeichen verwendet wird, die
@@ -368,3 +374,48 @@ nicht in ~doom-font~ enthalten sind.
 #+BEGIN_SRC emacs-lisp
 (setq doom-unicode-font "Noto Sans ExtraCondensed Semibold")
 #+END_SRC
+**** Doom Theme
+Set doom theme to the dracula theme
+#+begin_src emacs-lisp
+(setq doom-theme 'doom-dracula)
+#+end_src
+*** emacs/mu4e
+ Here are the configuration for the mail client in emacs. I use it for protonmail and gmail.
+**** Folder configuration
+Sets the standard folder for mu4e
+#+begin_src emacs-lisp
+(setq mu4e-maildir "~/.mail"
+    mu4e-attachment-dir "~/downloads"
+    mu4e-sent-folder "/sent"
+    mu4e-drafts-folder "/drafts"
+    mu4e-trash-folder "/trash"
+    mu4e-refile-folder "/archive")
+#+end_src
+**** Standard send account
+What is the standard user name and email for sending mails:
+#+begin_src emacs-lisp
+(setq user-mail-address "jonas@diesiewerts.de"
+    user-full-name  "Jonas Siewert")
+#+end_src
+**** Get Mail Settings
+All settings regarding the receiving of mails from protonmail bridge and gmail via mbsync:
+#+begin_src emacs-lisp
+(setq mu4e-get-mail-command "mbsync protonmail"
+    mu4e-change-filenames-when-moving t   ; needed for mbsync
+    mu4e-update-interval 120)             ; update every 2 minutes
+#+end_src
+**** Send Mail Settings
+All settings regarding the sending of mails via mbsync and protonmail bridge.
+#+begin_src emacs-lisp
+(setq message-send-mail-function 'smtpmail-send-it
+    starttls-use-gnutls t
+    smtpmail-starttls-credentials '(("127.0.0.1" 1025 nil nil))
+    smtpmail-auth-credentials "~/.authinfo.gpg" ;; Here I assume you encrypted the credentials
+    smtpmail-smtp-server "127.0.0.1"
+    smtpmail-smtp-service 1025)
+#+end_src
+**** Don't keep message buffers around
+The message buffers can be destroyd when the message is sent.
+#+begin_src emacs-lisp
+(setq message-kill-buffer-on-exit t)
+#+end_src
