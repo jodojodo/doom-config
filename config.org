@@ -215,7 +215,7 @@ Highlight indentation based on current line
             (ivy-rich-switch-buffer-size (:width 7 :face font-lock-doc-face))
             (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
             (ivy-rich-switch-buffer-major-mode (:width 18 :face doom-modeline-buffer-major-mode))
-            (ivy-rich-switch-buffer-path (:width 50)))
+            (ivy-rich-switch-buffer-path (:width (lambda (x) (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3))))))
            :predicate
            (lambda (cand) (get-buffer cand)))
           +ivy/switch-workspace-buffer
@@ -224,7 +224,7 @@ Highlight indentation based on current line
             (ivy-rich-switch-buffer-size (:width 7 :face font-lock-doc-face))
             (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
             (ivy-rich-switch-buffer-major-mode (:width 18 :face doom-modeline-buffer-major-mode))
-            (ivy-rich-switch-buffer-path (:width 50)))
+            (ivy-rich-switch-buffer-path (:width (lambda (x) (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3))))))
            :predicate
            (lambda (cand) (get-buffer cand)))
           counsel-M-x
@@ -280,11 +280,6 @@ Highlight indentation based on current line
         ivy-height 20
         ivy-rich-switch-buffer-name-max-length 50))
 #+END_SRC
-**** COMMENT Setup ~counsel-tramp~
-#+BEGIN_SRC emacs-lisp
-(use-package! counsel-tramp
-  :commands (counsel-tramp))
-#+END_SRC
 **** Setup ~all-the-icons-ivy~
 #+BEGIN_SRC emacs-lisp
 (use-package! all-the-icons-ivy
@@ -293,7 +288,7 @@ Highlight indentation based on current line
   (setq all-the-icons-ivy-file-commands '(
                                           counsel-find-file
                                           counsel-file-jump
-                                          ;counsel-recentf ;; Has to be diasabled in order to let ivy-rich work in thes buffer.
+                                          counsel-recentf ;; Has to be diasabled in order to let ivy-rich work in thes buffer.
                                           counsel-projectile-find-file
                                           counsel-dired-jump
                                           counsel-git
