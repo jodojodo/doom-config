@@ -140,14 +140,14 @@ Dies ist redundant zu eldoc und mehr "invasive" daher deaktivieren
 (setq lsp-ui-sideline-enable nil
       lsp-enable-symbol-highlighting nil)
 #+end_src
-**** Automatische Verfollständigung deaktivieren
+**** COMMENT Automatische Verfollständigung deaktivieren
 In der Regel benötigt man die Autoverfollständigung nicht automatisch. Daher hierdurch deaktiviert:
 #+begin_src emacs-lisp
 (setq company-idle-delay nil)
 #+end_src
 ** Persönliche Module
 Hier bearbeite ich Einstellungen an Paketen außerhalb von =Doom-emacs=
-*** ui/indent-guides
+*** COMMENT ui/indent-guides
 Zeige indent-guides. Ähnlich zum Package aus Doom, aber es erlaubt zeichen als
 guides anstatt von Farben zu verwenden.
 **** Define Package
@@ -195,6 +195,14 @@ Highlight indentation based on current line
   ;(tmux-pane-mode)
   )
 #+END_SRC
+*** evil-quickscope
+Dieses Plugin zeigt für f,F,t und T die besten Buchstaben an, um in ein bestimmtes Wort zu springen.
+#+begin_src emacs-lisp :tangle yes
+(use-package! evil-quickscope
+  :after (evil-snipe)
+  :config
+  (global-evil-quickscope-mode 1))
+#+end_src
 ** Doom Module
 *** completion/ivy
 **** Sortieren von ivy Sucherergebnissen (alphabetisch)
@@ -363,7 +371,15 @@ the target path of a dired copy or rename action is taken from the other dired w
 (after! multi-term
   (setq multi-term-program "/bin/zsh"))
 #+END_SRC
-*** feature/workspaces
+*** evil-snipe
+Set the sniping with s to be compatible with evil-quickscope
+#+begin_src emacs-lisp :tangle yes
+(use-package evil-snipe
+  :config
+  (evil-snipe-mode 1)
+  (evil-snipe-override-mode 0))
+#+end_src
+*** COMMENT feature/workspaces
 **** Erstelle beim Wechsel eines Projektes einen neuen Workspac
 #+BEGIN_SRC emacs-lisp
 (setq +workspaces-on-switch-project-behavior t)
@@ -382,7 +398,7 @@ Doom User interface Einstellungen
 #+BEGIN_SRC emacs-lisp
 (setq doom-serif-font (font-spec :family "Hack Nerd Font" :weight 'semi-bold :width 'extra-condensed))
 #+END_SRC
-***** Big font
+***** Big font 
 ~doom-big-font~ ist der standard font für den Big mode
 #+BEGIN_SRC emacs-lisp
 (setq doom-big-font (font-spec :family "Fira Code" :size 30))
@@ -396,7 +412,7 @@ nicht in ~doom-font~ enthalten sind.
 **** Doom Theme
 Set doom theme to the dracula theme
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-dracula)
+(setq doom-theme 'doom-gruvbox)
 #+end_src
 *** emacs/mu4e
  Here are the configuration for the mail client in emacs. I use it for protonmail and gmail.
