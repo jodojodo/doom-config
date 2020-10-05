@@ -39,9 +39,9 @@ Zum einstellen der Tastenkürzel
         :desc "Browse project notes" "p" #'+brett/find-notes-for-project)
       (:prefix "t"
         :desc "Rainbow mode" "r" #'rainbow-mode
-        :desc "Treemacs" "t" #'treemacs)
-      (:prefix "/"
-        :desc "Hex colors" "h"  #'counsel-hex-colors))
+        :desc "Treemacs" "t" #'treemacs
+        :desc "Hex colors" "h"  #'counsel-hex-colors
+        ))
 #+END_SRC
 **** Use - to jump up to the previous directory
 Für dired
@@ -420,16 +420,16 @@ Set doom theme to the dracula theme
 Sets the standard folder for mu4e
 #+begin_src emacs-lisp
 (setq mu4e-maildir "~/.mail"
-    mu4e-attachment-dir "~/downloads"
-    mu4e-sent-folder "/sent"
-    mu4e-drafts-folder "/drafts"
-    mu4e-trash-folder "/trash"
-    mu4e-refile-folder "/archive")
+    mu4e-attachment-dir "~/Downloads"
+    mu4e-sent-folder "/Sent"
+    mu4e-drafts-folder "/Drafts"
+    mu4e-trash-folder "/Trash"
+    mu4e-refile-folder "/Archive")
 #+end_src
 **** Standard send account
 What is the standard user name and email for sending mails:
 #+begin_src emacs-lisp
-(setq user-mail-address "jonas@diesiewerts.de"
+(setq user-mail-address "jonas.siewert@pm.me"
     user-full-name  "Jonas Siewert")
 #+end_src
 **** Get Mail Settings
@@ -443,11 +443,14 @@ All settings regarding the receiving of mails from protonmail bridge and gmail v
 All settings regarding the sending of mails via mbsync and protonmail bridge.
 #+begin_src emacs-lisp
 (setq message-send-mail-function 'smtpmail-send-it
-    starttls-use-gnutls t
-    smtpmail-starttls-credentials '(("127.0.0.1" 1025 nil nil))
-    smtpmail-auth-credentials "~/.authinfo.gpg" ;; Here I assume you encrypted the credentials
-    smtpmail-smtp-server "127.0.0.1"
-    smtpmail-smtp-service 1025)
+smtpmail-auth-credentials "~/.authinfo.gpg"
+smtpmail-smtp-server "127.0.0.1"
+smtpmail-stream-type 'starttls
+smtpmail-smtp-service 1025)
+
+(require 'gnutls)
+(add-to-list 'gnutls-trustfiles "/home/jonas/.config/protonmail/bridge/cert.pem")
+;(add-to-list 'gnutls-trustfiles (expand-file-name "~/.config/protonmail/bridge/cert.pem"))
 #+end_src
 **** Don't keep message buffers around
 The message buffers can be destroyd when the message is sent.
