@@ -56,7 +56,6 @@
 (package! company-prescient)
 
 ;; completion/ivy
-(package! all-the-icons-ivy)
 (package! counsel-tramp)
 
 ;; emacs/dired
@@ -89,4 +88,4 @@
 ;;(package! evil-anzu)
 
 ;; smtpmail for sending mails
-;;(package! smtpmail)
+(package! smtpmail)

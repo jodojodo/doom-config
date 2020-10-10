@@ -27,6 +27,7 @@
        (ivy               ; a search engine for love and life
          +fuzzy
          +childframe
+         +icons
          )
 
        :ui
@@ -73,8 +74,10 @@
        (dired
         +icons)     ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
-       ibuffer         ; interactive buffer management
-       undo              ; persistent, smarter undo for your inevitable mistakes
+       (ibuffer         ; interactive buffer management
+        +icons)
+       (undo              ; persistent, smarter undo for your inevitable mistakes
+        +tree)
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
@@ -106,7 +109,7 @@
        ;;pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        rgb               ; creating color strings
-       ;;taskrunner        ; taskrunner for all your projects
+       taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
        tmux              ; an API for interacting with tmux
        upload            ; map local to remote projects via ssh/ftp
@@ -136,7 +139,7 @@
        ;;idris             ;
        json              ; At least it ain't XML
        ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
-       ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       javascript        ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        latex             ; writing papers in Emacs has never been so fun
@@ -173,7 +176,7 @@
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       ;;web               ; the tubes
+       web               ; the tubes
        yaml              ; JSON, but readable
 
        :email

@@ -429,7 +429,7 @@ Sets the standard folder for mu4e
 **** Standard send account
 What is the standard user name and email for sending mails:
 #+begin_src emacs-lisp
-(setq user-mail-address "jonas.siewert@pm.me"
+(setq user-mail-address "jonas@diesiewerts.de"
     user-full-name  "Jonas Siewert")
 #+end_src
 **** Get Mail Settings
